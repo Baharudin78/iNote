@@ -13,4 +13,6 @@
     <string name="logout">Logout</string>
     <string name="name">Name</string>
     <string name="add_note">Add Note</string>
+    <string name="search">Search</string>
+    <string name="account">Account</string>
 </resources>

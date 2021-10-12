@@ -2,6 +2,7 @@ package com.baharudin.inote.data.local.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 import java.util.*
 
 @Entity
@@ -13,4 +14,4 @@ data class LocalNote(
     var locallyDelleted : Boolean = false,
     @PrimaryKey(autoGenerate = false)
     var noteId : String = UUID.randomUUID().toString()
-)
+) :Serializable

@@ -7,13 +7,14 @@
         <entry key="app/src/main/res/drawable/new_note_background.xml" value="0.37135416666666665" />
         <entry key="app/src/main/res/drawable/not_sync.xml" value="0.37135416666666665" />
         <entry key="app/src/main/res/drawable/synced.xml" value="0.37135416666666665" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.35520833333333335" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_all_note.xml" value="0.35520833333333335" />
         <entry key="app/src/main/res/layout/fragment_create_account.xml" value="0.35520833333333335" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.35520833333333335" />
         <entry key="app/src/main/res/layout/fragment_new_note.xml" value="0.35520833333333335" />
         <entry key="app/src/main/res/layout/fragment_user_info.xml" value="0.35520833333333335" />
         <entry key="app/src/main/res/layout/item_note.xml" value="0.35520833333333335" />
+        <entry key="app/src/main/res/menu/main_menu.xml" value="0.18055555555555555" />
       </map>
     </option>
   </component>

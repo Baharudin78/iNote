@@ -1,12 +1,10 @@
 package com.baharudin.inote.data.local.dao
 
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.baharudin.inote.data.local.model.LocalNote
 import kotlinx.coroutines.flow.Flow
 
+@Dao
 interface NoteDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

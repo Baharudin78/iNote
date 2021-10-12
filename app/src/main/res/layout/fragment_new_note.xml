@@ -2,8 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/new_note_background"
-    android:padding = "20dp"
+    android:padding="20dp"
+    tools:context=".ui.fragment.NewNoteFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <EditText
