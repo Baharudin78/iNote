@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.baharudin.inote.R
 import com.baharudin.inote.databinding.FragmentAllNoteBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AllNoteFragment : Fragment(R.layout.fragment_all_note) {
 
     private var _binding : FragmentAllNoteBinding ? = null

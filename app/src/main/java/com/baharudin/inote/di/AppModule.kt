@@ -6,6 +6,8 @@ import androidx.room.RoomDatabase
 import com.baharudin.inote.data.local.NoteDatabase
 import com.baharudin.inote.data.local.dao.NoteDao
 import com.baharudin.inote.data.remote.api.NoteApi
+import com.baharudin.inote.repository.NoteRepo
+import com.baharudin.inote.repository.NoteRepoImplementation
 import com.baharudin.inote.utils.Constant.BASE_URL
 import com.baharudin.inote.utils.SessionManager
 import com.google.gson.Gson
@@ -68,5 +70,18 @@ object AppModule {
             .build()
             .create(NoteApi::class.java)
 
+    }
+    @Singleton
+    @Provides
+    fun provideNoteRepo(
+        noteApi: NoteApi,
+        noteDao: NoteDao,
+        sessionManager: SessionManager
+    ) : NoteRepo {
+        return NoteRepoImplementation(
+            noteApi,
+            noteDao,
+            sessionManager
+        )
     }
 }
