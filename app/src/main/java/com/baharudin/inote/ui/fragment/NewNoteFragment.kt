@@ -7,6 +7,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.baharudin.inote.R
 import com.baharudin.inote.databinding.FragmentNewNoteBinding
 import com.baharudin.inote.ui.viewmodel.NoteViewModel
@@ -53,6 +55,7 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
         val noteDescription = binding.newNoteDescriptionEditText.text.toString().trim()
 
         if (noteTitle.isNullOrEmpty() && noteDescription.isNullOrEmpty()) {
+            noteViewModel.deleteNote(noteViewModel.oldNote!!.noteId)
             return
         }
         noteViewModel.updateNote(noteTitle, noteDescription)

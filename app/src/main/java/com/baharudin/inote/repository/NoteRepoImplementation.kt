@@ -8,6 +8,7 @@ import com.baharudin.inote.data.remote.model.User
 import com.baharudin.inote.utils.Result
 import com.baharudin.inote.utils.SessionManager
 import com.baharudin.inote.utils.isNetworkConnected
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class NoteRepoImplementation @Inject constructor(
@@ -78,12 +79,13 @@ class NoteRepoImplementation @Inject constructor(
     }
 
     override suspend fun createNote(note: LocalNote): Result<String> {
-        return try {
+         try {
             noteDao.insertNote(note)
-            val token = sessionManager.getJwtToken()
-            if (token == null) {
-                Result.Succes("Succesfully insert data")
-            }
+             val token = sessionManager.getJwtToken()
+                 ?: return Result.Succes("Note is Saved in Local Database!")
+             if(!isNetworkConnected(sessionManager.context)){
+                 return Result.Error("No Internet connection!")
+             }
             val result = noteApi.createNote(
                 "Bearer $token",
                 RemoteNote(
@@ -93,7 +95,7 @@ class NoteRepoImplementation @Inject constructor(
                     id = note.noteId
                 )
             )
-            if (result.succes) {
+           return if (result.succes) {
                 noteDao.insertNote(note.also { it.conected = true })
                 Result.Succes("Note saved succesfully")
             }else {
@@ -101,17 +103,19 @@ class NoteRepoImplementation @Inject constructor(
             }
         }catch (e : Exception) {
             e.printStackTrace()
-            Result.Error(e.message ?: "SOme Problem Occured")
+            return Result.Error(e.message ?: "SOme Problem Occured")
         }
     }
 
     override suspend fun updateNote(note: LocalNote): Result<String> {
-        return try {
+         try {
             noteDao.insertNote(note)
-            val token = sessionManager.getJwtToken()
-            if (token == null) {
-                Result.Succes(" Note Updated in local database")
-            }
+             val token = sessionManager.getJwtToken()
+                 ?: return Result.Succes("Note is Saved in Local Database!")
+             if(!isNetworkConnected(sessionManager.context)){
+                 return Result.Error("No Internet connection!")
+             }
+
             val result = noteApi.updateNote(
                 "Bearer $token",
                 RemoteNote(
@@ -121,7 +125,7 @@ class NoteRepoImplementation @Inject constructor(
                     id = note.noteId
                 )
             )
-            if (result.succes) {
+            return if (result.succes) {
                 noteDao.insertNote(note.also { it.conected = true })
                 Result.Succes("Note Successfully updated")
             }else {
@@ -129,7 +133,51 @@ class NoteRepoImplementation @Inject constructor(
             }
         }catch (e : Exception) {
             e.printStackTrace()
-            Result.Error(e.message ?:"SOme problem occured")
+           return Result.Error(e.message ?:"SOme problem occured")
+        }
+    }
+
+    override fun getAllNotes(): Flow<List<LocalNote>> = noteDao.getAllNoteByDate()
+
+    override suspend fun getAllNoteFromServer() {
+        try {
+            val token = sessionManager.getJwtToken() ?: return
+            if (!isNetworkConnected(sessionManager.context)) {
+                return
+            }
+            val result = noteApi.getAllNote("Bearer $token")
+            result.forEach { remoteNote ->
+                noteDao.insertNote(
+                    LocalNote(
+                        noteTitle = remoteNote.noteTitle,
+                        description = remoteNote.description,
+                        date = remoteNote.date,
+                        conected = true,
+                        noteId = remoteNote.id
+                    )
+                )
+            }
+        }catch (e : Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    override suspend fun deleteNote(noteId: String) {
+        try {
+            noteDao.deleteNoteLocally(noteId)
+            val token = sessionManager.getJwtToken() ?: kotlin.run {
+                noteDao.deleteNote(noteId)
+                return
+            }
+            if (!isNetworkConnected(sessionManager.context)) {
+                return
+            }
+            val response = noteApi.deleteNote("Bearer $token", noteId)
+            if (response.succes) {
+                noteDao.deleteNote(noteId)
+            }
+        }catch (e:Exception) {
+            e.printStackTrace()
         }
     }
 }

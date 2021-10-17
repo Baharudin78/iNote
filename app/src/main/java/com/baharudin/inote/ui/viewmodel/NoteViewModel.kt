@@ -17,6 +17,7 @@ class NoteViewModel @Inject constructor(
     val noteRepo: NoteRepo
 ): ViewModel() {
 
+    val notes = noteRepo.getAllNotes()
     var oldNote : LocalNote? = null
 
     fun createNote(
@@ -28,6 +29,16 @@ class NoteViewModel @Inject constructor(
             description = description
         )
         noteRepo.createNote(localNote)
+    }
+    fun deleteNote(
+        noteId : String
+    ) = viewModelScope.launch {
+        noteRepo.deleteNote(noteId)
+    }
+    fun undoDelete(
+        note : LocalNote
+    ) = viewModelScope.launch {
+        noteRepo.createNote(note)
     }
     fun updateNote(
         noteTitle: String?,

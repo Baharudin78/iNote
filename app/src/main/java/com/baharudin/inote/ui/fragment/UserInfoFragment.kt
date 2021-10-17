@@ -28,18 +28,22 @@ class UserInfoFragment : Fragment(R.layout.fragment_user_info) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
-            createAccountBtn.setOnClickListener {
+            createAccountBtn?.setOnClickListener {
                 findNavController().navigate(R.id.action_userInfoFragment_to_createAccountFragment)
             }
-            loginBtn.setOnClickListener {
+            loginBtn?.setOnClickListener {
                 findNavController().navigate(R.id.action_userInfoFragment_to_loginFragment)
             }
-            logoutBtn.setOnClickListener {
+            logoutBtn?.setOnClickListener {
                 userViewModel.logOutUser()
             }
 
         }
         subscribeToCurrentUserEvents()
+    }
+    override fun onStart() {
+        super.onStart()
+        userViewModel.getCUrrentUser()
     }
 
     private fun subscribeToCurrentUserEvents() = lifecycleScope.launch {
@@ -61,24 +65,21 @@ class UserInfoFragment : Fragment(R.layout.fragment_user_info) {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        userViewModel.getCUrrentUser()
-    }
+
     private fun userLoggedIn(){
-        binding.userProgressBar.isVisible = false
-        binding.loginBtn.isVisible = false
-        binding.createAccountBtn.isVisible = false
-        binding.logoutBtn.isVisible = true
-        binding.userEmail.isVisible = true
+        binding?.userProgressBar?.isVisible = false
+        binding?.loginBtn?.isVisible = true
+        binding?.createAccountBtn?.isVisible = true
+        binding?.logoutBtn?.isVisible = true
+        binding?.userEmail?.isVisible = true
     }
 
     private fun userNotLoggedIn(){
-        binding.userProgressBar.isVisible = false
-        binding.loginBtn.isVisible = true
-        binding.createAccountBtn.isVisible = true
-        binding.logoutBtn.isVisible = false
-        binding.userEmail.isVisible = false
+        binding?.userProgressBar?.isVisible = false
+        binding?.loginBtn?.isVisible = true
+        binding?.createAccountBtn?.isVisible = true
+        binding?.logoutBtn?.isVisible = false
+        binding?.userEmail?.isVisible = false
     }
 
 

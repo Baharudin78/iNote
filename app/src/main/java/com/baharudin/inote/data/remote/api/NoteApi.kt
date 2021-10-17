@@ -44,7 +44,7 @@ interface NoteApi {
     @DELETE("$API_VERSION/notes/delete")
     suspend fun deleteNote(
         @Header("Authorization") token: String,
-        @Body remoteNote: RemoteNote
+        @Query("id") noteId:String
     ) : SimpleResponse
 
 
