@@ -81,7 +81,7 @@ class AllNoteFragment : Fragment(R.layout.fragment_all_note) {
         }
         return super.onOptionsItemSelected(item)
     }
-    val itemTouchHelper = object : ItemTouchHelper.SimpleCallback(
+    private val itemTouchHelper = object : ItemTouchHelper.SimpleCallback(
         0,
         ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
     ) {
